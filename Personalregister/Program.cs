@@ -12,8 +12,11 @@ namespace Personalregister
         static void Main(string[] args)
         {
             bool exit = true;
-            do
+            try
             {
+               
+                do
+                {
                 Console.Clear();
                 Console.WriteLine("1 - Lägg till en anställd");
                 Console.WriteLine("2 - Visa anställda");
@@ -27,8 +30,21 @@ namespace Personalregister
                         {
                             Console.WriteLine("Ange Namn :");
                             string namn = Console.ReadLine();
-                            Console.WriteLine("Ange lön :");
-                            int lon = int.Parse(Console.ReadLine());
+                            while (string.IsNullOrWhiteSpace(namn))
+                            {
+                                Console.WriteLine("Fel: Namn får inte vara tomt.");
+                                Console.WriteLine("Ange Namn :");
+                                namn = Console.ReadLine();
+                            }
+
+                            int lon;
+                            while (true)
+                            {
+                                Console.Write("Ange lön: ");
+                                if (int.TryParse(Console.ReadLine(), out lon))
+                                    break; 
+                                Console.WriteLine("Fel: Ogiltig lön, försök igen!");
+                            }
                             EmployeeManager.AddEmployee(namn, lon);
                         }
                         break;
@@ -47,6 +63,12 @@ namespace Personalregister
                         break;
                 }
             } while (exit);
+         
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Ett fel inträffade: {ex.Message}");
+            }
         }
     }
     internal static class EmployeeStorage
@@ -62,9 +84,13 @@ namespace Personalregister
         }
         internal static void Showloyees()
         {
+
+
             foreach (var emp in employees)
+
             {
-                Console.WriteLine(emp.getName() + " " + emp.getSalary());
+                
+                Console.WriteLine("Namn: " + emp.getName() + "\t Lön: " + emp.getSalary());
             }
         }
     }
