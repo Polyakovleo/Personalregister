@@ -27,8 +27,15 @@ namespace Personalregister
                         {
                             Console.WriteLine("Ange Namn :");
                             string namn = Console.ReadLine();
-                            Console.WriteLine("Ange lön :");
-                            int lon = int.Parse(Console.ReadLine());
+                            
+                            int lon;
+                            while (true)
+                            {
+                                Console.Write("Ange lön: ");
+                                if (int.TryParse(Console.ReadLine(), out lon))
+                                    break; 
+                                Console.WriteLine("Fel: Ogiltig lön, försök igen!");
+                            }
                             EmployeeManager.AddEmployee(namn, lon);
                         }
                         break;
